@@ -20,6 +20,11 @@ export class ItemsController {
     return this.itemsService.create(createItemDto);
   }
 
+  @Get('/topProducts')
+  findTopProducts() {
+    return this.itemsService.findTopProducts();
+  }
+
   @Get()
   findAll() {
     return this.itemsService.findAll();

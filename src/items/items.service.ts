@@ -60,6 +60,47 @@ export class ItemsService {
     return result;
   }
 
+  async findTopProducts() {
+    const products = await this.prisma.product.findMany({
+      select: {
+        id: true,
+        name: true,
+      },
+    });
+
+    const result = await this.prisma.items.groupBy({
+      by: ['productId'],
+      _sum: {
+        amount: true,
+      },
+      orderBy: {
+        _sum: {
+          amount: 'desc',
+        },
+      },
+      take: 10,
+    });
+
+    if (result == null || result.length == 0) {
+      throw new HttpException('Nenhum item encontrado.', HttpStatus.NO_CONTENT);
+    }
+
+    const summary = [];
+    for (let i = 0; i < result.length; i++) {
+      for (let j = 0; j < products.length; j++) {
+        if (result[i].productId == products[j].id) {
+          const element = {
+            product: products[j].name,
+            ...result[i]._sum,
+          };
+          summary.push(element);
+        }
+      }
+    }
+
+    return summary;
+  }
+
   async findOne(id: string) {
     const result = await this.prisma.items.findMany({
       where: {

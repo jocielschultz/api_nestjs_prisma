@@ -1,0 +1,34 @@
+@url = localhost:3000
+
+@token = a
+
+GET http://localhost:3000/test
+
+###
+GET http://{{url}}/product
+
+###
+GET http://{{url}}/product/1
+
+###
+POST http://{{url}}/product
+Content-Type: application/json
+{
+  "name": "brinco", 
+  "description": "produto x",
+  "price": 199.99
+}
+
+###
+PUT  http://{{url}}/product/1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+{
+  "name": "colar", 
+  "description": "produto original",
+  "price": 199.99
+}
+
+###
+DELETE  http://{{url}}/product/1
+Authorization: Bearer {{token}}

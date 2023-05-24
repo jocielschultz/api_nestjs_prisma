@@ -49,4 +49,7 @@ model Items {
 
   product     Product @relation(fields: [productId], references: [id])
   sale        Sale  @relation(fields: [saleId], references: [id])
+
+  @@index([saleId], map: "iSaleId")
+  @@index([productId], map: "iProductId")
 }

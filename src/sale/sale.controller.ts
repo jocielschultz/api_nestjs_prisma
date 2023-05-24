@@ -22,8 +22,8 @@ export class SaleController {
   }
 
   @Get('/qrcode/:id')
-  async generateQrCode(@Param('id') id: string, @Res() response) {
-    return await this.saleService.generateQrCode(id);
+  generateQrCode(@Param('id') id: string) {
+    return this.saleService.generateQrCode(id);
   }
 
   @Get()

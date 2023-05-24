@@ -16,23 +16,26 @@ export class SaleService {
   }
 
   async generateQrCode(id: string) {
-    /*const result = await this.prisma.product.findMany();
+    const { total } = await this.findTotalsBySale(id);
 
-    if (result == null || result.length == 0) {
+    if (total == null || total == 0) {
       throw new HttpException(
         'Nenhum produto encontrado.',
         HttpStatus.NO_CONTENT,
       );
-    }*/
+    }
 
-    const qrCodeBuffer = await qr.toBuffer('Default data');
+    const infoQrCode = {
+      total,
+      id,
+    };
 
-    const teste = await qr.toDataURL('teste');
-    console.log(teste);
+    const payloadQrCode = JSON.stringify(infoQrCode);
 
-    return qrCodeBuffer.toString();
+    const qrCodeURL = await qr.toDataURL(`Total Venda: ${payloadQrCode}`);
+    console.log(qrCodeURL);
 
-    return `This action adds a new ${id} sale`;
+    return qrCodeURL;
   }
 
   create(createSaleDto: CreateSaleDto) {
